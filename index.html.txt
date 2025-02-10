@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nepali Text Summarizer</title>
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        /* Header */
+        header {
+            background: gray;
+            color: white;
+            padding: 10px;
+            font-size: 20px;
+        }
+
+        /* Container */
+        .container {
+            background: white;
+            padding: 20px;
+            margin: 30px auto;
+            width: 60%;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Title Button */
+        .title-button {
+            background: #1a2c6c;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        /* Text Areas */
+        .input-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        textarea {
+            width: 48%;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid gray;
+            border-radius: 5px;
+            font-size: 14px;
+            resize: none;
+        }
+
+        /* Upload Button */
+        .upload-container {
+            margin-top: 15px;
+            position: relative;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .upload-label {
+            display: inline-block;
+            background: #f8f8f8;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Summarize Button */
+        .summarize-btn {
+            background: #1a2c6c;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* ✅ Transparent Nepali Flag Watermark */
+        .bg-flag {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            width: 300px;
+            height: auto;
+            opacity: 0.1;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>“नेपाली पाठ सारांश”</h1>
+    </header>
+
+    <div class="container">
+        <button class="title-button">Nepali Text Summarizer</button>
+        
+        <div class="input-container">
+            <textarea id="inputText" placeholder="Enter your text here..."></textarea>
+            <textarea id="outputText" placeholder="Summary will appear here..." readonly></textarea>
+        </div>
+
+        <div class="upload-container">
+            <input type="file" id="fileInput" accept=".txt">
+            <label for="fileInput" class="upload-label">📂 Upload doc</label>
+        </div>
+
+        <button onclick="summarizeText()" class="summarize-btn">Summarize</button>
+    </div>
+
+    <!-- ✅ Transparent Nepali Flag as Background -->
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" class="bg-flag" alt="Nepali Flag">
+
+    <script>
+        function summarizeText() {
+            let inputText = document.getElementById("inputText").value;
+
+            if (!inputText.trim()) {
+                alert("Please enter some text to summarize!");
+                return;
+            }
+
+            // Simple text summarization logic (splitting into half)
+            let words = inputText.split(" ");
+            let summary = words.slice(0, Math.ceil(words.length / 2)).join(" ");
+
+            document.getElementById("outputText").value = summary;
+        }
+
+        // File Upload Functionality
+        document.getElementById("fileInput").addEventListener("change", function(event) {
+            let file = event.target.files[0];
+
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById("inputText").value = e.target.result;
+                };
+                reader.readAsText(file);
+            }
+        });
+    </script>
+</body>
+</html>
